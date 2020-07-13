@@ -1,0 +1,12 @@
+{
+    "projects":{
+        "prisma":{
+            "schema": "src/graph-baixado/prisma.graphql",
+            "extensions":{
+                "endpoints": {
+                    "default":"http://localhost:4466"
+                }
+            }
+        }
+    }
+}

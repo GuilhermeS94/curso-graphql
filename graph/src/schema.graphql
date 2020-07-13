@@ -1,0 +1,100 @@
+type Query{
+    usuarios(query: String): [Usuario!]!
+    postagens(query: String): [Postagem!]!
+    comentarios: [Comentario!]!
+    eu: Usuario!
+    postagem: Postagem!
+}
+
+type Mutation{
+    criarUsuario(novo: InCriarUsuario!): Usuario!
+    deletarUsuario(id: ID!): Usuario!
+    alterarUsuario(id: ID!, upd:InAlterarUsuario!): Usuario!
+    criarPost(novo: InCriarPost!): Postagem!
+    deletarPostagem(id: ID!): Postagem!
+    alterarPostagem(id: ID!, upd:InAlterarPost!): Postagem!
+    criarComment(novo: InCriarComment!): Comentario!
+    deletarComentario(id: ID!): Comentario!
+    alterarComentario(id: ID!, upd:InAlterarComment!): Comentario!
+}
+
+type Subscription{
+    comentario(postID: ID!): CommentSubscriptionPayload!
+    postagem: PostSubscriptionPayload!
+}
+
+input InCriarUsuario{
+    nome: String!
+    email: String!
+    idade: Int
+}
+
+input InAlterarUsuario{
+    nome: String
+    email: String
+    idade: Int
+}
+
+input InCriarPost{
+    titulo: String!
+    corpo: String!
+    publicado: Boolean!
+    autor: ID!
+}
+
+input InAlterarPost{
+    titulo: String
+    corpo: String
+    publicado: Boolean
+}
+
+input InCriarComment{
+    texto: String!
+    autor: ID!
+    postagem: ID!
+}
+
+input InAlterarComment{
+    texto: String
+}
+
+type Usuario{
+    id: ID!
+    nome: String!
+    email: String!
+    idade: Int
+    postagens: [Postagem!]!
+    comentarios: [Comentario!]!
+}
+
+type Postagem{
+    id: ID!
+    titulo: String!
+    corpo: String!
+    publicado: Boolean!
+    autor: Usuario!
+    comentarios: [Comentario!]!
+}
+
+type Comentario{
+    id: ID!
+    texto: String!
+    autor: Usuario!
+    postagem: Postagem!
+}
+
+enum MutaionType{
+    CREATED
+    UPDATED
+    DELETED
+}
+
+type PostSubscriptionPayload{
+    mutation: MutaionType!
+    data: Postagem!
+}
+
+type CommentSubscriptionPayload{
+    mutation: MutaionType!
+    data: Comentario!
+}
